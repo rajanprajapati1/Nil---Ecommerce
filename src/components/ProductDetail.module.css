@@ -1,0 +1,334 @@
+.container {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #fff;
+  padding-top: 80px;
+  /* Space for fixed navbar */
+}
+
+.gallery {
+  width: 65%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 10px;
+}
+
+.gallery image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.galleryImg {
+  width: 100%;
+  display: block;
+}
+
+.details {
+  width: 35%;
+  height: calc(100vh - 80px);
+  /* Fill the viewport height minus nav */
+  position: sticky;
+  top: 80px;
+  padding: 40px 60px;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  overflow-y: auto;
+  /* Allow the panel itself to scroll if it's taller than viewport */
+  scrollbar-width: none;
+  /* Hide scrollbar for aesthetics */
+}
+
+.details::-webkit-scrollbar {
+  display: none;
+}
+
+.bread {
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  color: #666;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+}
+
+.title {
+  font-family: var(--font-cormorant);
+  font-size: 2.2rem;
+  font-weight: 400;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+.price {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.desc {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 40px;
+  max-width: 400px;
+}
+
+.section {
+  margin-bottom: 40px;
+}
+
+.sectionTitle {
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.sizeGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  max-width: 300px;
+}
+
+.sizeBtn {
+  border: 1px solid #e0e0e0;
+  background: none;
+  padding: 10px 0;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.sizeBtn:hover {
+  border-color: #000;
+}
+
+.activeSize {
+  border-color: #000;
+  background-color: #f8f8f8;
+}
+
+.actions {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.addBtn {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 15px;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.addBtn:hover {
+  opacity: 0.8;
+}
+
+.inCart {
+  background-color: #333;
+}
+
+.wishlistBtn {
+  background: white;
+  border: 1px solid #000;
+  color: #000;
+  padding: 15px;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+
+.infoSection {
+  margin-top: 40px;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+
+.infoItem {
+  margin-bottom: 15px;
+}
+
+.infoLabel {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.infoText {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+@media (max-width: 1024px) {
+  .details {
+    padding: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .gallery,
+  .details {
+    width: 100%;
+  }
+
+  .details {
+    position: relative;
+    top: 0;
+    height: auto;
+  }
+}
+
+/* Editorial Banner Styles */
+.editorialBanner {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  min-height: 400px;
+  margin-top: 60px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editorialImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  object-position: top;
+}
+
+/* Dark overlay to make text readable */
+.editorialBanner::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
+
+.editorialContent {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  color: #fff;
+  padding: 0 40px;
+  max-width: 800px;
+}
+
+.editorialTitle {
+  font-family: var(--font-cormorant);
+  font-size: 3rem;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+}
+
+.editorialText {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 40px;
+  font-weight: 300;
+}
+
+.editorialLink {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #fff;
+  transition: opacity 0.3s ease;
+  color: #fff;
+  text-decoration: none;
+}
+
+.editorialLink:hover {
+  opacity: 0.7;
+}
+
+/* Recommended / Recently Viewed Slider Styles */
+.pageWrapper {
+  width: 100%;
+  padding-bottom: 120px;
+}
+
+.suggestionSection {
+  margin-top: 80px;
+  padding: 40px 60px 0 60px;
+  border-top: 1px solid #eee;
+}
+
+.suggestionTitle {
+  font-family: var(--font-cormorant);
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+}
+
+.suggestionGrid {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  /* Hide scrollbar for clean look */
+  padding-bottom: 20px;
+}
+
+.suggestionGrid::-webkit-scrollbar {
+  display: none;
+}
+
+.suggestionCard {
+  flex: 0 0 300px;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+}
+
+.suggestionImg {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.suggestionName {
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.suggestionPrice {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .suggestionSection {
+    padding: 30px;
+  }
+}

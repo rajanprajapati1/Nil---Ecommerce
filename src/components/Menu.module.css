@@ -1,0 +1,112 @@
+.menuOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: white;
+  z-index: 900; /* below navbar 1000 */
+  color: black;
+  clip-path: inset(0% 0% 100% 0%);
+  padding-top: calc(var(--nav-height) + 20px);
+  overflow-y: auto;
+}
+
+.menuContainer {
+  display: flex;
+  justify-content: flex-start;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 40px;
+  gap: 10%;
+  height: 100%;
+}
+
+.mainCol {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  position: relative;
+  padding-left: 25px;
+}
+
+.activeDot {
+  position: absolute;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  background-color: black;
+  border-radius: 50%;
+  top: 0;
+}
+
+.mainCol h2 {
+  font-family: var(--font-cormorant);
+  font-size: 2.5rem;
+  font-weight: 400;
+  cursor: pointer;
+  letter-spacing: 0px;
+}
+
+.subCol {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.subCategoryBlock {
+  display: flex;
+  gap: 20px;
+}
+
+.subNumber, .subLabel {
+  font-size: 0.65rem;
+  color: #666;
+  letter-spacing: 1px;
+}
+
+.subLabel {
+  width: 80px;
+}
+
+.subLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.subLinks a {
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: #111;
+}
+
+.featureCol {
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.featureImage {
+  width: 100%;
+  max-width: 350px;
+  height: 500px;
+  overflow: hidden;
+}
+
+.featureImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 1024px) {
+  .menuContainer {
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+  .featureCol {
+    display: none;
+  }
+}

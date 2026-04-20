@@ -1,0 +1,215 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: calc(100vh - var(--nav-height));
+  background-color: var(--bg);
+  padding: 4rem 10% 6rem;
+  position: relative;
+  margin-top: var(--nav-height);
+}
+
+.formsWrapper {
+  display: flex;
+  width: 100%;
+  gap: 10rem;
+  margin-top: 2rem;
+}
+
+.column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.backBtnWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 4rem;
+}
+
+.backBtn {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.backBtn:hover {
+  opacity: 1;
+}
+
+.formContainer {
+  width: 100%;
+  max-width: 400px;
+}
+
+.formHeader {
+  margin-bottom: 3rem;
+}
+
+.title {
+  font-family: var(--font-cormorant);
+  font-size: 2rem;
+  font-weight: 300;
+  margin-bottom: 2.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.infoText {
+  font-size: 0.75rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  max-width: 350px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.inputGroup {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  opacity: 0.4;
+}
+
+.input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #000;
+  padding: 0.5rem 0;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.submitBtn {
+  background-color: #000 !important;
+  color: #fff !important;
+  padding: 1.25rem 4rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  width: 100%;
+  max-width: 300px;
+  border: none;
+  cursor: pointer;
+  display: block;
+  min-height: 50px;
+  z-index: 10;
+}
+
+.submitBtn:hover {
+  background-color: #222 !important;
+}
+
+.toggleLink {
+  margin-top: 1.5rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: underline;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.registerBtn {
+  border: 1px solid var(--fg);
+  background-color: transparent;
+  color: var(--fg);
+  padding: 0.9rem 2.5rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  width: fit-content;
+  transition: all 0.3s ease;
+}
+
+.registerBtn:hover {
+  background-color: var(--fg);
+  color: var(--bg);
+}
+
+.forgotPassword {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 1rem;
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.fullFormWrapper {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.fullFormContainer {
+  width: 100%;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem 4rem;
+  margin-bottom: 3rem;
+}
+
+.checkboxGroup {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #000;
+  cursor: pointer;
+  margin-top: 2px;
+}
+
+.checkboxLabel {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+    padding: 4rem 10% 2rem;
+    gap: 4rem;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .formsWrapper {
+    flex-direction: column;
+    gap: 4rem;
+  }
+}
