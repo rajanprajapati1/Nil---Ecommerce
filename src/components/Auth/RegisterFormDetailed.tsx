@@ -39,15 +39,15 @@ export default function RegisterFormDetailed({ onBack }: RegisterFormDetailedPro
   return (
     <div className={styles.fullFormContainer} ref={formRef}>
       <h1 className={`${styles.title} anim`}>Personal Details</h1>
-      
+
       <form className={styles.form} onSubmit={handleRegister}>
         <div className={styles.formGrid}>
           <div className={`${styles.inputGroup} anim`}>
             <label className={styles.label}>E-mail</label>
-            <input 
-              type="email" 
-              className={styles.input} 
-              required 
+            <input
+              type="email"
+              className={styles.input}
+              required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -92,7 +92,7 @@ export default function RegisterFormDetailed({ onBack }: RegisterFormDetailedPro
         <div className={`${styles.checkboxGroup} anim`}>
           <input type="checkbox" id="newsletter" className={styles.checkbox} />
           <label htmlFor="newsletter" className={styles.checkboxLabel}>
-            I wish to receive personalized news from NIL by email.
+            I wish to receive personalized news from IIL by email.
           </label>
         </div>
 

@@ -4,7 +4,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "@/lib/db";
-import { getProductById } from "@/data/products";
+import { getZaraProductById } from "@/data/zaraParser";
 import { useUI } from "@/context/UIContext";
 import styles from "./Drawers.module.css";
 
@@ -26,14 +26,20 @@ export default function Drawers() {
     }
   };
 
+  const handleMoveToDetail = (productId: string) => {
+    router.push(`/product/${productId}`);
+    closeCart();
+    closeWishlist();
+  };
+
   const currentCartDetails = cartItems.map(item => ({
     ...item,
-    product: getProductById(item.productId)
+    product: getZaraProductById(item.productId)
   })).filter(i => i.product);
 
   const currentWishlistDetails = wishlistItems.map(item => ({
     ...item,
-    product: getProductById(item.productId)
+    product: getZaraProductById(item.productId)
   })).filter(i => i.product);
 
   const cartTotal = currentCartDetails.reduce((sum, item) => {
@@ -41,6 +47,7 @@ export default function Drawers() {
     const priceNum = parseFloat(item.product?.price.replace(/[^0-9.]/g, '') || "0");
     return sum + (priceNum * item.quantity);
   }, 0);
+
 
   // Cart Drawer
   return (
@@ -57,9 +64,20 @@ export default function Drawers() {
           {currentCartDetails.length === 0 ? (
             <p className={styles.emptyMsg}>Your bag is empty.</p>
           ) : (
-            currentCartDetails.map(item => (
+            currentCartDetails.map(item => {
+              const cartMedia = item.product?.images[0] ?? "";
+              const cartIsVideo = cartMedia.split("?")[0].endsWith(".mp4");
+              return (
               <div key={item.id} className={styles.bagItem}>
-                <img src={item.product?.images[0]} alt={item.product?.name} className={styles.bagImg} />
+                {cartIsVideo ? (
+                  <video src={cartMedia} autoPlay loop muted playsInline
+                    onClick={() => handleMoveToDetail(item?.productId)}
+                    className={styles.bagImg} style={{ cursor: 'pointer' }} />
+                ) : (
+                  <img src={cartMedia}
+                    onClick={() => handleMoveToDetail(item?.productId)}
+                    alt={item.product?.name} className={styles.bagImg} />
+                )}
                 <div className={styles.bagInfo}>
                   <p className={styles.bagName}>{item.product?.name}</p>
                   <p className={styles.bagDetail}>Size: {item.size || "M"}</p>
@@ -78,7 +96,8 @@ export default function Drawers() {
                   </div>
                 </div>
               </div>
-            ))
+            );
+            })
           )}
         </div>
         <div className={styles.drawerFooter}>
@@ -106,9 +125,21 @@ export default function Drawers() {
           {currentWishlistDetails.length === 0 ? (
             <p className={styles.emptyMsg}>Your wishlist is empty.</p>
           ) : (
-            currentWishlistDetails.map(item => (
+            currentWishlistDetails.map(item => {
+              const wMedia = item.product?.images[0] ?? "";
+              const wIsVideo = wMedia.split("?")[0].endsWith(".mp4");
+              return (
               <div key={item.id} className={styles.bagItem}>
-                <img src={item.product?.images[0]} alt={item.product?.name} className={styles.bagImg} />
+                {wIsVideo ? (
+                  <video src={wMedia} autoPlay loop muted playsInline
+                    onClick={() => handleMoveToDetail(item?.productId)}
+                    className={styles.bagImg} style={{ cursor: 'pointer' }} />
+                ) : (
+                  <img
+                    src={wMedia} alt={item.product?.name}
+                    onClick={() => handleMoveToDetail(item?.productId)}
+                    className={styles.bagImg} />
+                )}
                 <div className={styles.bagInfo}>
                   <p className={styles.bagName}>{item.product?.name}</p>
                   <p className={styles.bagPrice}>{item.product?.price}</p>
@@ -119,7 +150,7 @@ export default function Drawers() {
                       onClick={async () => {
                         const existing = await db.cart.where("productId").equals(item.productId).first();
                         if (!existing) {
-                          await db.cart.put({ productId: item.productId, quantity: 1, addedAt: Date.now() });
+                          await db.cart.add({ productId: item.productId, quantity: 1, addedAt: Date.now() });
                         }
                         await db.wishlist.delete(item.id!);
                         openCart();
@@ -130,7 +161,8 @@ export default function Drawers() {
                   </div>
                 </div>
               </div>
-            ))
+            );
+            })
           )}
         </div>
       </div>

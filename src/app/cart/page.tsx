@@ -2,7 +2,7 @@
 
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "@/lib/db";
-import { products, getRecommendedProducts } from "@/data/products";
+import { getZaraProductById, getZaraHomepageProducts } from "@/data/zaraParser";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./cart.module.css";
@@ -12,7 +12,7 @@ export default function CartPage() {
 
   const enriched = cartItems.map((item) => ({
     ...item,
-    product: products.find((p) => p.id === item.productId),
+    product: getZaraProductById(item.productId),
   })).filter((i) => i.product);
 
   const total = enriched.reduce((sum, item) => {
@@ -20,7 +20,7 @@ export default function CartPage() {
     return sum + price * item.quantity;
   }, 0);
 
-  const recommendations = getRecommendedProducts("", 4);
+  const recommendations = getZaraHomepageProducts(4).womens; // Use womens as default recommendations
 
   const remove = (id: number) => db.cart.delete(id);
 

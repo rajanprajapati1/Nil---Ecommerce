@@ -1,0 +1,88 @@
+/* Covers entire screen including navbar/footer */
+.root {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: #fff;
+  overflow: hidden;
+}
+
+/* Swiper fills entire root */
+.swiper {
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+}
+
+.swiper:active {
+  cursor: grabbing;
+}
+
+/* Each slide: 16vw wide so ~6.2 visible at once  — matches Zara */
+.slide {
+  width: 16vw !important;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* Image stretches to fill all height except label */
+.imgWrap {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* White label strip — exact Zara placement */
+.label {
+  background: #ede8e0;
+  padding: 18px 12px 20px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 8rem;
+}
+
+.country {
+  font-size: 1.5rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.guide {
+  display: inline-block;
+  background: #000;
+  color: #fff;
+  font-size: 0.78rem;
+  letter-spacing: 2px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+/* Thin divider between slides */
+.slide+.slide {
+  border-left: 2px solid #fff;
+}

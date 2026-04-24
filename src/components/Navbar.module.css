@@ -64,6 +64,7 @@
 .right {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 25px;
   font-size: 0.75rem;
   font-weight: 500;
@@ -95,6 +96,7 @@
 }
 
 .iconBtn {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;

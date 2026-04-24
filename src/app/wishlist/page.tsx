@@ -2,7 +2,7 @@
 
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "@/lib/db";
-import { products } from "@/data/products";
+import { getZaraProductById } from "@/data/zaraParser";
 import Link from "next/link";
 import styles from "./wishlist.module.css";
 
@@ -11,7 +11,7 @@ export default function WishlistPage() {
 
   const enriched = wishlistItems.map((item) => ({
     ...item,
-    product: products.find((p) => p.id === item.productId),
+    product: getZaraProductById(item.productId),
   })).filter((i) => i.product);
 
   const remove = (id: number) => db.wishlist.delete(id);

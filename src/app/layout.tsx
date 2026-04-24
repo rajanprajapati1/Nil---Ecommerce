@@ -18,7 +18,7 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "NIL | Pure Minimalism",
+  title: "IIL | Pure Minimalism",
   description: "Experience the void of style. Minimalist luxury fashion.",
 };
 

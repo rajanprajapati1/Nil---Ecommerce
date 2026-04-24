@@ -14,7 +14,7 @@ export default function Footer() {
         <a href="#">YOUTUBE</a>
       </div>
       <div className={styles.bottom}>
-        <span>© NIL 2026. THE VOID OF STYLE.</span>
+        <span>© IIL 2026. THE VOID OF STYLE.</span>
       </div>
     </footer>
   );

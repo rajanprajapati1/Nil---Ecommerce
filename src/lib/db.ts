@@ -33,7 +33,7 @@ export const db = new Dexie('NilDB') as Dexie & {
 };
 
 // Schema declaration
-db.version(1).stores({
+db.version(2).stores({
   recentlyViewed: '++id, productId, viewedAt', // Primary key and indexed props
   cart: '++id, productId',
   wishlist: '++id, productId',

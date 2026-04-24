@@ -2,7 +2,7 @@
 .root {
   width: 100%;
   min-height: 100vh;
-  background: #0a0a0a;
+  background: #fff;
   position: relative;
 }
 
@@ -21,93 +21,7 @@
   width: 100%;
 }
 
-/* ── Hero section ──────────────────────────────────────── */
-.hero {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-}
 
-.heroBg {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center top;
-  transition: transform 10s ease;
-}
-
-.hero:hover .heroBg {
-  transform: scale(1.04);
-}
-
-.heroOverlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(0,0,0,0.2) 0%,
-    rgba(0,0,0,0.08) 50%,
-    rgba(0,0,0,0.65) 100%
-  );
-  z-index: 1;
-}
-
-/* Hero info — bottom right, small and elegant */
-.heroInfo {
-  position: absolute;
-  bottom: 56px;
-  right: 60px;
-  z-index: 2;
-  text-align: right;
-  color: #fff;
-}
-
-.heroCatLabel {
-  font-size: 0.58rem;
-  letter-spacing: 5px;
-  text-transform: uppercase;
-  opacity: 0.65;
-  margin-bottom: 8px;
-  font-weight: 400;
-}
-
-.heroTagline {
-  font-family: var(--font-cormorant, 'Cormorant Garamond', serif);
-  font-size: clamp(1.6rem, 2.5vw, 2.4rem);
-  font-weight: 300;
-  letter-spacing: 1px;
-  line-height: 1.2;
-  margin-bottom: 28px;
-}
-
-.scrollHint {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 10px;
-  opacity: 0.5;
-}
-
-.scrollHint span {
-  font-size: 0.5rem;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-}
-
-.scrollBar {
-  width: 1px;
-  height: 48px;
-  background: #fff;
-  margin-left: auto;
-  animation: scrollPulse 2s ease infinite;
-}
-
-@keyframes scrollPulse {
-  0%   { transform: scaleY(0); transform-origin: top; opacity: 0; }
-  40%  { opacity: 1; }
-  100% { transform: scaleY(1); transform-origin: top; opacity: 0; }
-}
 
 /* ── Product sections ─────────────────────────────────── */
 .productSection {
@@ -124,26 +38,34 @@
   justify-content: flex-start;
 }
 
-.productBg {
-  position: absolute;
+.productImage {
   inset: 0;
-  background-size: cover;
-  background-position: center top;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center top;
   transition: transform 10s ease;
 }
 
-.productSection:hover .productBg {
-  transform: scale(1.04);
+.productSection:nth-child(3n) .productImage {
+  object-fit: cover;
 }
+
+.productSection:nth-child(3n + 1) .productImage {
+  object-fit: contain;
+}
+
+.productSection:nth-child(5n) .productImage {
+  object-fit: cover;
+}
+
 
 .productOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(0,0,0,0.05) 30%,
-    rgba(0,0,0,0.72) 100%
-  );
+  background: linear-gradient(to bottom,
+      rgba(0, 0, 0, 0.05) 30%,
+      rgba(0, 0, 0, 0.72) 100%);
   z-index: 1;
 }
 
@@ -189,7 +111,7 @@
 .viewBtn {
   display: inline-block;
   padding: 11px 28px;
-  border: 1px solid rgba(255,255,255,0.75);
+  border: 1px solid rgba(255, 255, 255, 0.75);
   color: #fff;
   font-size: 0.6rem;
   letter-spacing: 2.5px;
@@ -212,11 +134,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(255,255,255,0.25);
+  color: rgba(0, 0, 0, 0.35);
   font-size: 0.55rem;
   letter-spacing: 6px;
   text-transform: uppercase;
-  background: #0a0a0a;
+  background: #fff;
 }
 
 /* ── Right-side category tabs (vertical) ────────────── */
@@ -240,19 +162,22 @@
   font-size: 0.52rem;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.35);
+  color: rgba(255, 255, 255, 0.5);
   transition: color 0.25s;
   padding: 0;
   writing-mode: initial;
   text-align: right;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .sideTab:hover {
-  color: rgba(255,255,255,0.8);
+  color: #fff;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
 }
 
 .sideTabActive {
   color: #fff;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
 }
 
 .sideTabActive::after {
@@ -264,12 +189,75 @@
   margin-top: 4px;
 }
 
+/* ── Color swatches ──────────────────────────────────── */
+.colorSwatches {
+  display: flex;
+  gap: 7px;
+  margin-bottom: 22px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.productSectionAlt .colorSwatches {
+  justify-content: flex-start;
+}
+
+.colorSwatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  display: inline-block;
+  cursor: default;
+  transition: transform 0.2s;
+}
+
+.colorSwatch:hover {
+  transform: scale(1.25);
+}
+
+.colorMore {
+  font-size: 0.52rem;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ── VIEW ALL link inside heroInfo ───────────────────── */
+.viewAllLink {
+  display: inline-block;
+  font-size: 0.58rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  padding-bottom: 2px;
+  margin-bottom: 28px;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.viewAllLink:hover {
+  color: #fff;
+  border-color: #fff;
+}
+
+/* ── VIEW ALL banner at category end ─────────────────── */
+.viewAllBanner {
+  font-size: 0.62rem;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+  transition: color 0.25s;
+}
+
+.viewAllBanner:hover {
+  color: rgba(255, 255, 255, 0.85);
+}
+
 /* ── Responsive ──────────────────────────────────────── */
 @media (max-width: 768px) {
-  .heroInfo {
-    right: 24px;
-    bottom: 40px;
-  }
+
 
   .productInfo {
     padding: 36px 24px;

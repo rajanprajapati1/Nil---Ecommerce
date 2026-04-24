@@ -4,25 +4,48 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import Link from "next/link";
 import styles from "./ProductDetail.module.css";
-import { getProductById, getRecommendedProducts, products } from "@/data/products";
+import { getZaraProductById, getZaraRecommended, getZaraCompleteTheLook } from "@/data/zaraParser";
+import type { ZaraProduct } from "@/data/zaraParser";
 import { db } from "@/lib/db";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useUI } from "@/context/UIContext";
 
+
 export default function ProductDetail({ id }: { id: string }) {
+  console.log(id, "id")
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const detailsRef = useRef<HTMLDivElement>(null);
   const { openCart, openWishlist } = useUI();
 
-  const product = getProductById(id) || products[0]; // Fallback to first product
+  const zaraProduct = getZaraProductById(id);
 
-  const recommendedItems = getRecommendedProducts(product.id);
+  if (!zaraProduct) {
+    return <div className={styles.pageWrapper}><div className={styles.container}>Product not found</div></div>;
+  }
+
+  // Normalise to a unified shape
+  const product = {
+    id: zaraProduct.id,
+    name: zaraProduct.name,
+    price: zaraProduct.price,
+    description: zaraProduct.description || "No description available.",
+    images: zaraProduct.images,
+    category: zaraProduct.category,
+    composition: zaraProduct.subfamilyName || "—",
+    care: "Follow care instructions on label.",
+    colors: zaraProduct.colors,
+    familyName: zaraProduct.familyName,
+    keyword: zaraProduct.keyword,
+  };
+
+  // Recommended — Zara data
+  const rawRecommended = getZaraRecommended(zaraProduct, 6);
 
   // Track and fetch recently viewed
   const recentlyViewedQuery = useLiveQuery(() => db.recentlyViewed.orderBy('viewedAt').reverse().toArray());
   const recentlyViewedIds = recentlyViewedQuery?.map(item => item.productId).filter(pid => pid !== product.id) || [];
-  const recentlyViewedProducts = recentlyViewedIds.map(vid => getProductById(vid)).filter(Boolean).slice(0, 4);
+  const recentlyViewedProducts = recentlyViewedIds.map(vid => getZaraProductById(vid)).filter(Boolean).slice(0, 4);
 
   // Check Cart/Wishlist status
   const cartQuery = useLiveQuery(() => db.cart.where("productId").equals(product.id).first(), [product.id]);
@@ -30,8 +53,8 @@ export default function ProductDetail({ id }: { id: string }) {
   const isInCart = !!cartQuery;
   const isSaved = !!wishlistQuery;
 
-  // Complete The Look (a quick shuffle or curated slice of other items)
-  const completeTheLookItems = products.filter(p => p.category !== product.category && p.id !== product.id).slice(0, 4);
+  // Complete The Look (from zara products, same category but different family)
+  const completeTheLookItems = getZaraCompleteTheLook(zaraProduct, 4);
 
   useEffect(() => {
     // Record this product view in Dexie
@@ -69,18 +92,29 @@ export default function ProductDetail({ id }: { id: string }) {
     if (isInCart) {
       openCart();
     } else {
-      await db.cart.put({ productId: product.id, size: selectedSize || "M", quantity: 1, addedAt: Date.now() });
-      openCart();
+      try {
+        await db.cart.add({ productId: product.id, size: selectedSize || "M", quantity: 1, addedAt: Date.now() });
+        openCart();
+      } catch (err) {
+        console.error("Cart add error", err);
+      }
     }
   };
 
   const handleWishlistToggle = async () => {
-    if (isSaved) {
-      // Toggle off? Or just open wishlist? Zara typically toggles off.
-      await db.wishlist.delete(wishlistQuery!.id!);
+    if (isSaved && wishlistQuery?.id) {
+      try {
+        await db.wishlist.delete(wishlistQuery.id);
+      } catch (err: any) {
+        console.error("Wishlist delete error", err);
+      }
     } else {
-      await db.wishlist.put({ productId: product.id, addedAt: Date.now() });
-      openWishlist();
+      try {
+        await db.wishlist.add({ productId: product.id, addedAt: Date.now() });
+        openWishlist();
+      } catch (err: any) {
+        console.error("Wishlist add error", err);
+      }
     }
   };
 
@@ -91,7 +125,11 @@ export default function ProductDetail({ id }: { id: string }) {
         <div className={styles.gallery}>
           {product.images.map((img, idx) => (
             <div key={idx} className={styles.galleryImg}>
-              <img src={img} alt={product.name} style={{ width: '100%', display: 'block' }} />
+              {img.split('?')[0].endsWith('.mp4') ? (
+                <video src={img} autoPlay loop muted playsInline style={{ width: '100%', display: 'block' }} />
+              ) : (
+                <img src={img} alt={product.name} style={{ width: '100%', display: 'block' }} />
+              )}
             </div>
           ))}
         </div>
@@ -131,14 +169,14 @@ export default function ProductDetail({ id }: { id: string }) {
           </div>
 
           <div className={`${styles.actions} reveal`}>
-            <button 
-              className={`${styles.addBtn} ${isInCart ? styles.inCart : ""}`} 
+            <button
+              className={`${styles.addBtn} ${isInCart ? styles.inCart : ""}`}
               onClick={handleAddToCart}
             >
               {isInCart ? "IN CART" : "ADD TO BAG"}
             </button>
-            <button 
-              className={styles.wishlistBtn} 
+            <button
+              className={styles.wishlistBtn}
               onClick={handleWishlistToggle}
             >
               {isSaved ? "SAVED TO WISHLIST" : "SAVE TO WISHLIST"}
@@ -174,11 +212,11 @@ export default function ProductDetail({ id }: { id: string }) {
       )}
 
       {/* Recommended Items */}
-      {recommendedItems.length > 0 && (
+      {rawRecommended.length > 0 && (
         <div className={styles.suggestionSection}>
           <h2 className={styles.suggestionTitle}>You May Also Like</h2>
           <div className={styles.suggestionGrid}>
-            {recommendedItems.map(item => (
+            {rawRecommended.map(item => (
               <Link href={`/product/${item.id}`} key={item.id} className={styles.suggestionCard}>
                 <img src={item.images[0]} alt={item.name} className={styles.suggestionImg} />
                 <span className={styles.suggestionName}>{item.name}</span>
